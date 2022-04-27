@@ -1,8 +1,8 @@
 {
-  "name": "pipeline_cdk",
+  "name": "cdkpipeline",
   "version": "0.1.0",
   "bin": {
-    "pipeline_cdk": "bin/pipeline_cdk.js"
+    "cdkpipeline": "bin/cdkpipeline.js"
   },
   "scripts": {
     "build": "tsc",
@@ -11,17 +11,21 @@
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@aws-cdk/assertions": "1.153.1",
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
+    "aws-cdk": "2.21.1",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
-    "aws-cdk": "1.153.1",
     "ts-node": "^9.0.0",
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "@aws-cdk/core": "1.153.1",
+    "@aws-cdk/assert": "^2.21.1",
+    "@aws-cdk/aws-budgets": "1.153.1",
+    "@aws-cdk/aws-ec2": "^1.153.1",
+    "@aws-sdk/client-budgets": "^3.76.0",
+    "aws-cdk-lib": "2.21.1",
+    "constructs": "^10.0.0",
     "source-map-support": "^0.5.16"
   }
 }
