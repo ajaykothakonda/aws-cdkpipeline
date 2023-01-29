@@ -14,6 +14,5 @@ test("Billing stack", () => {
 //    });
 
 //    expect(SynthUtils.toCloudFormation(stack).toWhatchSnatshot());
->>>>>>> ca9f12a3fe302712d6725234350a46c4ad504e72
 
 })
