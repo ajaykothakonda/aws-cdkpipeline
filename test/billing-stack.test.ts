@@ -1,15 +1,19 @@
-import { App } from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { App, Stack } from 'aws-cdk-lib';
 import { BillingSTack } from '../lib/billing-stack';
 import  { SynthUtils } from '@aws-cdk/assert';
 
+import { Construct } from 'constructs';
+
 test("Billing stack", () => {
-    const app = new App();
+   // const app = new cdk.App();
 
-    const stack = new BillingSTack(app, "BillingStack", {
-        budgetAmount: 1,
-        emailAddress: "test@exactlyMatchTemplate.com"
-    });
+//    const stack = new BillingSTack(cdk.App, "BillingStack", {
+//        budgetAmount: 1,
+//        emailAddress: "test@exactlyMatchTemplate.com"
+//    });
 
-    // expect(SynthUtils.toCloudFormation(stack).toWhatchSnatshot());
+//    expect(SynthUtils.toCloudFormation(stack).toWhatchSnatshot());
+>>>>>>> ca9f12a3fe302712d6725234350a46c4ad504e72
 
 })
