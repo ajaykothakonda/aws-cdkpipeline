@@ -1,18 +1,13 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 
-import { Construct } from 'constructs';
 
-import { CdkpipelineStack } from '../lib/cdkpipeline-stack';
-import { BillingSTack } from '../lib/billing-stack';
+
+import { CdkpipelineStack } from '../lib/Cdkpipeline-stack';
 
 const app = new cdk.App();
 
-// new CdkpipelineStack(app, 'CdkpipelineStack', {});
+new CdkpipelineStack(app, 'CDKPipelineCdkStack', {
 
-new BillingSTack(app, "BillingStack", {
-  budgetAmount: 5,
-  emailAddress: "pierre_kengne@yahoo.com",
-
-});
+} )
