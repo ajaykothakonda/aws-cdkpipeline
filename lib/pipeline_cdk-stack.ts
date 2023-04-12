@@ -56,8 +56,8 @@ export class PipelineCdkStack extends cdk.Stack {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0
             },
-            buildSpec: BuildSpec.fromSourceFilename(
-              '../build-specs/cdk-build-spec.yaml'
+            buildSpec: BuildSpec.fromAsset(
+              './build-specs/cdk-build-spec.yaml'
             )
           })
         }),
