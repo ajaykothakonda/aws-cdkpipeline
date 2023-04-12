@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { App, Stack } from 'aws-cdk-lib';
 import { BillingSTack } from '../lib/billing-stack';
-import  { SynthUtils } from '@aws-cdk/assert';
+
 
 import { Construct } from 'constructs';
 

@@ -1,15 +1,69 @@
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { SecretValue } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { BuildSpec, LinuxBuildImage, PipelineProject } from 'aws-cdk-lib/aws-codebuild';
+import { Artifact, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
+import { CodeBuildAction, GitHubSourceAction } from 'aws-cdk-lib/aws-codepipeline-actions';
 // import * as sqs from '@aws-cdk/aws-sqs';
+//import { Construct } from '@aws-cdk/core';
 
 export class PipelineCdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const pipeline = new Pipeline(this, "Pipeline", {
+      pipelineName: 'Pipeline',
+      crossAccountKeys: false
+    });
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'PipelineCdkQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const cdkSourceOutput = new Artifact('CDKsourceOutput');
+    const serviceSourceOutput = new Artifact('ServiceSourceOutput');
+
+    pipeline.addStage({
+      stageName: 'Source',
+      actions: [
+        new GitHubSourceAction({
+          owner: 'kengne66',
+          repo: 'aws-cdkpipeline',
+          branch: 'master',
+          actionName: 'Pipeline_Source',
+          oauthToken: SecretValue.secretsManager('github-token'),
+          output: cdkSourceOutput
+        }),
+        new GitHubSourceAction({
+          owner: 'kengne66',
+          repo: 'express-lambda',
+          branch: 'master',
+          actionName: 'service_Source',
+          oauthToken: SecretValue.secretsManager('github-token'),
+          output: serviceSourceOutput
+        })
+      ]
+    });
+
+
+    const cdkBuildOutput = new Artifact('cdkBuildOutput')
+
+    pipeline.addStage({
+      stageName: "Build",
+      actions: [new CodeBuildAction({
+        actionName: 'CDK_Build',
+        input: cdkSourceOutput,
+        outputs: [cdkBuildOutput],
+        project: new PipelineProject(this, 'cdkBuildProject', {
+          environment: {
+            buildImage: LinuxBuildImage.STANDARD_5_0
+          },
+          buildSpec: BuildSpec.fromSourceFilename('build-spec/cdk-build-spec.yml')
+        })
+
+
+      })
+
+      ]
+
+
+    });
+
   }
 }

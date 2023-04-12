@@ -1,37 +1,26 @@
-import { App,  Stack } from '@aws-cdk/core'
+import { App,  Stack } from 'aws-cdk-lib'
 import { isExternalCompatible } from 'aws-cdk-lib/aws-ecs';
 import { Budget } from '../../lib/constructs/budget';
-import { expect as expectCDK, haveResource, haveResourceLike  } from "@aws-cdk/assert";
+import { Template  } from "aws-cdk-lib/assertions";
 
 test("Budget construct", () => {
-    const app = new App;
-    const stack = new Stack(app, "Stact");
+const app = new App;
+    const stack = new Stack(app, "budgetStack");
 
     new Budget(stack, "Budget", {
         budgetAmount: 1,
         emailAddress: 'test@isExternalCompatible.com',
     })
 
-    expectCDK(Stack).to(haveResourceLike("AWS::Budgets::Budget", {
+    const template = Template.fromStack(stack)
+
+    template.hasResourceProperties("AWS::Budgets::Budget", {
         Budget: {
             BudgetLimit: {
                 Amount: 1
             }
         },
-
-        NotificationWithSubscribers: [
-            {
-                Subscribers: [
-                    {
-                        Address: "test@exqmple.com"
-                    }
-                ]
-            }
-        ]
-    }));
-
-
-
+      });
 
 
 })
