@@ -3,7 +3,7 @@ import { SecretValue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { BuildSpec, LinuxBuildImage, PipelineProject } from 'aws-cdk-lib/aws-codebuild';
 import { Artifact, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
-import { CodeBuildAction, GitHubSourceAction } from 'aws-cdk-lib/aws-codepipeline-actions';
+import { CloudFormationCreateUpdateStackAction, CodeBuildAction, GitHubSourceAction } from 'aws-cdk-lib/aws-codepipeline-actions';
 // import * as sqs from '@aws-cdk/aws-sqs';
 //import { Construct } from '@aws-cdk/core';
 
@@ -43,27 +43,54 @@ export class PipelineCdkStack extends cdk.Stack {
 
 
     const cdkBuildOutput = new Artifact('cdkBuildOutput')
+    const ServiceBuildOutput = new Artifact('serviceBuildOutput')
 
     pipeline.addStage({
       stageName: "Build",
-      actions: [new CodeBuildAction({
-        actionName: 'CDK_Build',
-        input: cdkSourceOutput,
-        outputs: [cdkBuildOutput],
-        project: new PipelineProject(this, 'cdkBuildProject', {
-          environment: {
-            buildImage: LinuxBuildImage.STANDARD_5_0
-          },
-          buildSpec: BuildSpec.fromSourceFilename('build-spec/cdk-build-spec.yml')
+      actions: [
+        new CodeBuildAction({
+          actionName: 'CDK_Build',
+          input: cdkSourceOutput,
+          outputs: [cdkBuildOutput],
+          project: new PipelineProject(this, 'cdkBuildProject', {
+            environment: {
+              buildImage: LinuxBuildImage.STANDARD_5_0
+            },
+            buildSpec: BuildSpec.fromSourceFilename(
+              'build-spec/cdk-build-spec.yml'
+            )
+          })
+        }),
+
+        new CodeBuildAction({
+          actionName: 'Service_Build',
+          input: serviceSourceOutput,
+          outputs: [ServiceBuildOutput],
+          project: new PipelineProject(this, 'ServiceBuildProject', {
+            environment: {
+              buildImage: LinuxBuildImage.STANDARD_5_0
+            },
+            buildSpec: BuildSpec.fromSourceFilename(
+              'build-spec/service-build-spec.yml'
+            )
+          })
         })
-
-
-      })
-
       ]
-
-
     });
+
+
+    pipeline.addStage( {
+      stageName: "pipeline_Update",
+      actions: [
+        new CloudFormationCreateUpdateStackAction( {
+          actionName: "Pipeline_Update",
+          stackName: "PipelineStack",
+          templatePath: cdkBuildOutput.atPath("PipelineStack.template.json"),
+          adminPermissions: true
+        }),
+      ]
+    }
+    )
 
   }
 }
