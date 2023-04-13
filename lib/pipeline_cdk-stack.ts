@@ -11,13 +11,13 @@ export class PipelineCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const pipeline = new Pipeline(this, "PipelineCDK1", {
-      pipelineName: 'PipelineCDK',
+    const pipeline = new Pipeline(this, "PipelineCDK2", {
+      pipelineName: 'PipelineCDK2',
       crossAccountKeys: false
     });
 
-    const cdkSourceOutput = new Artifact('CDKsourceOutput');
-    const serviceSourceOutput = new Artifact('ServiceSourceOutput');
+    const cdkSourceOutput = new Artifact('CDKsourceOutput2');
+    const serviceSourceOutput = new Artifact('ServiceSourceOutput2');
 
     pipeline.addStage({
       stageName: 'Source',
@@ -26,7 +26,7 @@ export class PipelineCdkStack extends cdk.Stack {
           owner: 'kengne66',
           repo: 'aws-cdkpipeline',
           branch: 'master',
-          actionName: 'Pipeline_Source',
+          actionName: 'Pipeline_Source2',
           oauthToken: SecretValue.secretsManager('github-token'),
           output: cdkSourceOutput
         }),
@@ -34,7 +34,7 @@ export class PipelineCdkStack extends cdk.Stack {
           owner: 'kengne66',
           repo: 'express-lambda',
           branch: 'master',
-          actionName: 'service_Source',
+          actionName: 'service_Source2',
           oauthToken: SecretValue.secretsManager('github-token'),
           output: serviceSourceOutput
         })
@@ -42,17 +42,17 @@ export class PipelineCdkStack extends cdk.Stack {
     });
 
 
-    const cdkBuildOutput = new Artifact('cdkBuildOutput')
-    const ServiceBuildOutput = new Artifact('serviceBuildOutput')
+    const cdkBuildOutput = new Artifact('cdkBuildOutput2')
+    const ServiceBuildOutput = new Artifact('serviceBuildOutput2')
 
     pipeline.addStage({
       stageName: "Build",
       actions: [
         new CodeBuildAction({
-          actionName: 'CDK_Build',
+          actionName: 'CDK_Build2',
           input: cdkSourceOutput,
           outputs: [cdkBuildOutput],
-          project: new PipelineProject(this, 'cdkBuildProject-1', {
+          project: new PipelineProject(this, 'cdkBuildProject2', {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0
             },
@@ -63,10 +63,10 @@ export class PipelineCdkStack extends cdk.Stack {
         }),
 
         new CodeBuildAction({
-          actionName: 'Service_Build',
+          actionName: 'Service_Build2',
           input: serviceSourceOutput,
           outputs: [ServiceBuildOutput],
-          project: new PipelineProject(this, 'ServiceBuildProject-1', {
+          project: new PipelineProject(this, 'ServiceBuildProject2', {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0
             },

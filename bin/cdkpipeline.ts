@@ -8,7 +8,7 @@ import { BillingSTack } from '../lib/billing-stack';
 
 const app = new cdk.App();
 
-new Cdkpipeline.PipelineCdkStack(app, 'PipelineCDKStack1', {});
+new Cdkpipeline.PipelineCdkStack(app, 'PipelineCDKStack2', {});
 
 new BillingSTack(app, "BillingStack", {
   budgetAmount: 5,
