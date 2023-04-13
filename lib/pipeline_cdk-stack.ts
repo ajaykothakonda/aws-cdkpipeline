@@ -11,8 +11,8 @@ export class PipelineCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const pipeline = new Pipeline(this, "Pipeline", {
-      pipelineName: 'Pipeline',
+    const pipeline = new Pipeline(this, "PipelineCDK1", {
+      pipelineName: 'PipelineCDK',
       crossAccountKeys: false
     });
 
@@ -52,12 +52,12 @@ export class PipelineCdkStack extends cdk.Stack {
           actionName: 'CDK_Build',
           input: cdkSourceOutput,
           outputs: [cdkBuildOutput],
-          project: new PipelineProject(this, 'cdkBuildProject', {
+          project: new PipelineProject(this, 'cdkBuildProject-1', {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0
             },
-            buildSpec: BuildSpec.fromSourceFilename(
-              'buildspec.yml'
+            buildSpec : BuildSpec.fromSourceFilename(
+              'build-specs/buildspec.yml'
             )
           })
         }),
@@ -66,7 +66,7 @@ export class PipelineCdkStack extends cdk.Stack {
           actionName: 'Service_Build',
           input: serviceSourceOutput,
           outputs: [ServiceBuildOutput],
-          project: new PipelineProject(this, 'ServiceBuildProject', {
+          project: new PipelineProject(this, 'ServiceBuildProject-1', {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0
             },
@@ -78,7 +78,7 @@ export class PipelineCdkStack extends cdk.Stack {
       ]
     });
 
-
+/*
     pipeline.addStage( {
       stageName: "pipeline_Update",
       actions: [
@@ -91,6 +91,7 @@ export class PipelineCdkStack extends cdk.Stack {
       ]
     }
     )
+    */
 
   }
 }
