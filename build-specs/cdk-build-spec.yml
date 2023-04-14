@@ -23,5 +23,5 @@ reports:
     files:
       - 'test-report.xml'
     file-format: JUNITXML
-    base directory: 'test-reports'
+    base-directory: 'test-reports'
 
