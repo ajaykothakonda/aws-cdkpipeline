@@ -6,7 +6,7 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
 
-  reporters: [
+  reports: [
     "default",
     [
       "jest-junit",
