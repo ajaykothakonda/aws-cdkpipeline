@@ -10,9 +10,13 @@ import * as apigw from "aws-cdk-lib/aws-apigateway";
 import * as lambda from  "aws-cdk-lib/aws-lambda"
 
 
+interface serviceStackProps extends StackProps {
+  stageName: string
+}
+
 export class ServiceStack extends Stack {
   public readonly servicecode: lambda.CfnParametersCode
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: serviceStackProps) {
     super(scope, id, props);
 
     this.servicecode = Code.fromCfnParameters();
@@ -21,14 +25,14 @@ export class ServiceStack extends Stack {
       runtime: Runtime.NODEJS_14_X,
       handler: "scr/lambda.handler",
       code: this.servicecode,
-      functionName: "serviceLambda"
+      functionName: `serviceLambda${props.stageName}`
     });
     
     const DefaultIntegration = new HttpLambdaIntegration('BooksIntegration', Lambda);
         
     new HttpApi(this, "ServiceLambda", {
       defaultIntegration: DefaultIntegration,
-      apiName: "MyService"
+      apiName: `myService${props.stageName}`
     })
 
   }

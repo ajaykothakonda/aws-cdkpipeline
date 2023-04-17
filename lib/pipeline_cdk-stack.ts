@@ -2,13 +2,15 @@ import * as cdk from 'aws-cdk-lib';
 import { SecretValue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { BuildSpec, LinuxBuildImage, PipelineProject } from 'aws-cdk-lib/aws-codebuild';
-import { Artifact, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
+import { Artifact, IStage, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
 import { CodePipeline } from "aws-cdk-lib/pipelines";
 import { CloudFormationCreateUpdateStackAction, CodeBuildAction, GitHubSourceAction } from 'aws-cdk-lib/aws-codepipeline-actions';
 import { ServiceStack } from "./service-stack";
 import * as yaml from 'yaml'; // https://www.npmjs.com/package/yaml
 import * as path from "path";
 import * as fs from "fs";
+import { BillingSTack } from './billing-stack';
+//import { IStage } from 'aws-cdk-lib/aws-apigateway';
 
 // import * as sqs from '@aws-cdk/aws-sqs';
 //import { Construct } from '@aws-cdk/core';
@@ -113,8 +115,8 @@ export class PipelineCdkStack extends cdk.Stack {
 
   }
 
-  public addServiceStage(serviceStack: ServiceStack, stageName: string) {
-    this.pipeline.addStage({
+  public addServiceStage(serviceStack: ServiceStack, stageName: string): IStage {
+    return this.pipeline.addStage({
       stageName: stageName,
       actions: [
         new CloudFormationCreateUpdateStackAction({
@@ -130,6 +132,15 @@ export class PipelineCdkStack extends cdk.Stack {
         })
       ]
     })
+  }
+
+  public addBillingStackToStage(billingStack: BillingSTack, stage: IStage) {
+    stage.addAction(new CloudFormationCreateUpdateStackAction({
+      actionName: "Billing_Update",
+      stackName: billingStack.stackName,
+          templatePath: this.cdkBuildOutput.atPath(`${billingStack.stackName}.template.json`),
+          adminPermissions: true,
+    }))
   }
 
 }

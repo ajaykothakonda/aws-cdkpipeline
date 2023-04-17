@@ -8,6 +8,7 @@ import { Capture, Match, Template } from "aws-cdk-lib/assertions";
 import * as Pipeline from "../lib/pipeline_cdk-stack";
 import { ServiceStack } from "../lib/service-stack";
 import { PipelineCdkStack } from "../lib/pipeline_cdk-stack";
+import { BillingSTack } from '../lib/billing-stack';
 
 // example test. To run these tests, uncomment this file along with the
 // example resource in lib/cdkpipeline-stack.ts
@@ -25,7 +26,9 @@ test('Pipeline Stack', () => {
 test("Adding service stage", () => {
    // GIVEN
    const app = new App();
-   const serviceStack = new ServiceStack(app, "ServiceStack");
+   const serviceStack = new ServiceStack(app, "ServiceStack", {
+      stageName: "Test"
+   });
    const pipelineStack = new PipelineCdkStack(app, "PipelineStack");
  
    // WHEN
@@ -38,6 +41,36 @@ test("Adding service stage", () => {
        Stages: Match.arrayWith([
          Match.objectLike({
            Name: "Test",
+         }),
+       ]),
+     }
+   );
+ });
+
+ test("Adding Billing stack test", () => {
+   // GIVEN
+   const app = new App();
+   const serviceStack = new ServiceStack(app, "ServiceStack", {
+      stageName: "Test"
+   });
+   const pipelineStack = new PipelineCdkStack(app, "PipelineStack");
+   const billingStack = new BillingSTack(app, "billingStack", {
+      budgetAmount: 5,
+      emailAddress: "pierre_kengne@yahoo.com"
+   });
+
+   const testStage =  pipelineStack.addServiceStage(serviceStack, "test");
+ 
+   // WHEN
+   pipelineStack.addBillingStackToStage(serviceStack, testStage)
+ 
+   // THEN
+   Template.fromStack(pipelineStack).hasResourceProperties(
+     "AWS::CodePipeline::Pipeline",
+     {
+       Stages: Match.arrayWith([
+         Match.objectLike({
+           Name: "Billing_Update",
          }),
        ]),
      }
