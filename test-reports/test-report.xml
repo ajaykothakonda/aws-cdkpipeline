@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="5" failures="1" errors="0" time="15.571">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-04-17T01:28:04" time="12.98" tests="1">
+    <testcase classname=" Billing stack" name=" Billing stack" time="0.109">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-04-17T01:28:04" time="13.288" tests="1">
+    <testcase classname=" Budget construct" name=" Budget construct" time="0.085">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="1" skipped="0" timestamp="2023-04-17T01:28:04" time="14.697" tests="3">
+    <testcase classname=" Pipeline Stack" name=" Pipeline Stack" time="0.205">
+    </testcase>
+    <testcase classname=" Adding service stage" name=" Adding service stage" time="0.179">
+    </testcase>
+    <testcase classname=" Adding Billing stack test" name=" Adding Billing stack test" time="0.139">
+      <failure>Error: Template has 1 resources with type AWS::CodePipeline::Pipeline, but none match as expected.
+The 1 closest matches:
+PipelineCDKBBF86984 :: {
+  &quot;DependsOn&quot;: [ &quot;PipelineCDKRoleDefaultPolicyFDF69877&quot;, &quot;PipelineCDKRoleB1D32677&quot; ],
+  &quot;Properties&quot;: {
+    &quot;ArtifactStore&quot;: { ... },
+    &quot;Name&quot;: &quot;PipelineCDK&quot;,
+    &quot;RestartExecutionOnUpdate&quot;: true,
+    &quot;RoleArn&quot;: { &quot;Fn::GetAtt&quot;: [ &quot;PipelineCDKRoleB1D32677&quot;, &quot;Arn&quot; ] },
+    &quot;Stages&quot;: [
+!!     Could not match arrayWith pattern 0. This is the closest match
+      {
+        &quot;Actions&quot;: [ ... ],
+!!       Expected Billing_Update but received Source
+        &quot;Name&quot;: &quot;Source&quot;
+      },
+      { ... },
+      { ... },
+      { ... }
+    ]
+  },
+  &quot;Type&quot;: &quot;AWS::CodePipeline::Pipeline&quot;
+}
+    at Template.hasResourceProperties (C:\Users\pierr\workspaces\pipelineCDK\node_modules\aws-cdk-lib\assertions\lib\template.ts:107:13)
+    at Object.&lt;anonymous&gt; (C:\Users\pierr\workspaces\pipelineCDK\test\pipeline_cdk.test.ts:64:38)
+    at Promise.then.completed (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-circus\build\utils.js:293:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-circus\build\utils.js:226:10)
+    at _callCircusTest (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-circus\build\run.js:297:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at _runTest (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-circus\build\run.js:233:3)
+    at _runTestsForDescribeBlock (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-circus\build\run.js:135:9)
+    at run (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-circus\build\run.js:68:3)
+    at runAndTransformResultsToJestFormat (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\pierr\workspaces\pipelineCDK\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
