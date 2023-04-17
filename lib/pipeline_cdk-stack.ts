@@ -6,6 +6,10 @@ import { Artifact, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
 import { CodePipeline } from "aws-cdk-lib/pipelines";
 import { CloudFormationCreateUpdateStackAction, CodeBuildAction, GitHubSourceAction } from 'aws-cdk-lib/aws-codepipeline-actions';
 import { ServiceStack } from "./service-stack";
+import * as yaml from 'yaml'; // https://www.npmjs.com/package/yaml
+import * as path from "path";
+import * as fs from "fs";
+
 // import * as sqs from '@aws-cdk/aws-sqs';
 //import { Construct } from '@aws-cdk/core';
 
@@ -52,6 +56,11 @@ export class PipelineCdkStack extends cdk.Stack {
     this.cdkBuildOutput = new Artifact('cdkBuildOutput')
     this.ServiceBuildOutput = new Artifact('serviceBuildOutput')
 
+    //const stringified = fs.readFileSync(path.join(__dirname, './buildspec.yml'), { encoding: 'utf-8', });
+    //const parsed  = yaml.parse(stringified);
+
+    const specFile = (serviceSourceOutput.atPath(`'build-specs/service-build-spec.yml'`)).fileName
+
     this.pipeline.addStage({
       stageName: "Build",
       actions: [
@@ -77,10 +86,15 @@ export class PipelineCdkStack extends cdk.Stack {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0
             },
+            /*
             buildSpec: BuildSpec.fromSourceFilename(
               '../build-specs/service-build-spec.yml'
             )
+          
+            buildSpec: BuildSpec.fromSourceFilename(specFile)
+            */
           })
+          
         })
       ]
     });

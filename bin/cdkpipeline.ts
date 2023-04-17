@@ -23,4 +23,4 @@ const serviceStackProd  = new ServiceStack(app, "ServiceStackProd");
 
 
 
-pipelineStack.addServiceStage(serviceStackProd, "Prod")
+pipelineStack.addServiceStage(serviceStackProd, "Prod");
