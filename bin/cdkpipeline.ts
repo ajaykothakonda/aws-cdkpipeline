@@ -28,8 +28,13 @@ const serviceStackProd  = new ServiceStack(app, "ServiceStackProd", {
   stageName: "Prod"
 });
 
-const testStage = pipelineStack.addServiceStage(serviceStackTest, "Test")
+const testStage = pipelineStack.addServiceStage(serviceStackTest, "Test");
 
 const prodStage = pipelineStack.addServiceStage(serviceStackProd, "Prod");
 
-pipelineStack.addBillingStackToStage(billingStack, prodStage)
+pipelineStack.addBillingStackToStage(billingStack, prodStage);
+pipelineStack.addServiceIntegrationTestStage(
+  testStage,
+  serviceStackTest.serviceEnpointOutput.importValue
+
+)
