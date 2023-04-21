@@ -138,7 +138,7 @@ export class PipelineCdkStack extends cdk.Stack {
       adminPermissions: true
     }))
   };
-  /*
+  
   public addServiceIntegrationTestStage(stage:IStage, serviceEndpoint: string) {
     stage.addAction(
       new CodeBuildAction({
@@ -161,5 +161,5 @@ export class PipelineCdkStack extends cdk.Stack {
       })
     )    
   }
-  */
+  
 }
