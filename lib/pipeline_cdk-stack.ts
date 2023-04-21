@@ -110,7 +110,7 @@ export class PipelineCdkStack extends cdk.Stack {
     });
 
   }
-/*
+
   public addServiceStage(serviceStack: ServiceStack, stageName: string): IStage {
     return this.pipeline.addStage({
       stageName: stageName,
@@ -129,7 +129,7 @@ export class PipelineCdkStack extends cdk.Stack {
       ]
     })
   };
-
+/*
   public addBillingStackToStage(billingStack: BillingSTack, stage: IStage) {
     stage.addAction(new CloudFormationCreateUpdateStackAction({
       actionName: "Billing_Update",
