@@ -18,7 +18,7 @@ const billingStack = new BillingSTack(app, "BillingStack", {
   emailAddress: "pierre_kengne@yahoo.com",
 
 });
-/*
+
 const serviceStackTest  = new ServiceStack(app, "ServiceStackTest", {
   stageName: "Test"
 });
@@ -27,7 +27,7 @@ const serviceStackTest  = new ServiceStack(app, "ServiceStackTest", {
 const serviceStackProd  = new ServiceStack(app, "ServiceStackProd", {
   stageName: "Prod"
 });
-
+/*
 const testStage = pipelineStack.addServiceStage(serviceStackTest, "Test");
 
 const prodStage = pipelineStack.addServiceStage(serviceStackProd, "Prod");
