@@ -129,7 +129,7 @@ export class PipelineCdkStack extends cdk.Stack {
       ]
     })
   };
-/*
+
   public addBillingStackToStage(billingStack: BillingSTack, stage: IStage) {
     stage.addAction(new CloudFormationCreateUpdateStackAction({
       actionName: "Billing_Update",
@@ -138,7 +138,7 @@ export class PipelineCdkStack extends cdk.Stack {
       adminPermissions: true
     }))
   };
-  
+  /*
   public addServiceIntegrationTestStage(stage:IStage, serviceEndpoint: string) {
     stage.addAction(
       new CodeBuildAction({

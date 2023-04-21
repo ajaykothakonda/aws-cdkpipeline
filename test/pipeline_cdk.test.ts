@@ -59,10 +59,10 @@ test("Adding service stage", () => {
       emailAddress: "pierre_kengne@yahoo.com"
    });
 
-   //const testStage =  pipelineStack.addServiceStage(serviceStack, "test");
+   const testStage =  pipelineStack.addServiceStage(serviceStack, "test");
  
    // WHEN
-   //pipelineStack.addBillingStackToStage(serviceStack, testStage)
+   pipelineStack.addBillingStackToStage(serviceStack, testStage)
  
    // THEN
    Template.fromStack(pipelineStack).hasResourceProperties(
