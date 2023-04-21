@@ -90,13 +90,7 @@ export class PipelineCdkStack extends cdk.Stack {
             environment: {
               buildImage: LinuxBuildImage.STANDARD_5_0
             },
-            /*
-            buildSpec: BuildSpec.fromSourceFilename(
-              '../build-specs/service-build-spec.yml'
-            )
-          
-            buildSpec: BuildSpec.fromSourceFilename(specFile)
-            */
+
           })
           
         })
@@ -116,7 +110,7 @@ export class PipelineCdkStack extends cdk.Stack {
     });
 
   }
-
+/*
   public addServiceStage(serviceStack: ServiceStack, stageName: string): IStage {
     return this.pipeline.addStage({
       stageName: stageName,
@@ -144,7 +138,7 @@ export class PipelineCdkStack extends cdk.Stack {
       adminPermissions: true
     }))
   };
-
+  
   public addServiceIntegrationTestStage(stage:IStage, serviceEndpoint: string) {
     stage.addAction(
       new CodeBuildAction({
@@ -167,4 +161,5 @@ export class PipelineCdkStack extends cdk.Stack {
       })
     )    
   }
+  */
 }

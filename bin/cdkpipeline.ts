@@ -18,7 +18,7 @@ const billingStack = new BillingSTack(app, "BillingStack", {
   emailAddress: "pierre_kengne@yahoo.com",
 
 });
-
+/*
 const serviceStackTest  = new ServiceStack(app, "ServiceStackTest", {
   stageName: "Test"
 });
@@ -34,8 +34,10 @@ const prodStage = pipelineStack.addServiceStage(serviceStackProd, "Prod");
 
 pipelineStack.addBillingStackToStage(billingStack, prodStage);
 
+
 pipelineStack.addServiceIntegrationTestStage(
   testStage,
   serviceStackTest.serviceEnpointOutput.importValue
 
 )
+*/
