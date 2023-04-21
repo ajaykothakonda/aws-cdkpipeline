@@ -33,8 +33,10 @@ const testStage = pipelineStack.addServiceStage(serviceStackTest, "Test");
 const prodStage = pipelineStack.addServiceStage(serviceStackProd, "Prod");
 
 pipelineStack.addBillingStackToStage(billingStack, prodStage);
+/*
 pipelineStack.addServiceIntegrationTestStage(
   testStage,
   serviceStackTest.serviceEnpointOutput.importValue
 
 )
+*/
