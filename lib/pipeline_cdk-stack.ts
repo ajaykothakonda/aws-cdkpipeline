@@ -179,7 +179,7 @@ export class PipelineCdkStack extends cdk.Stack {
       "IntegrationTestFailed",
       new SnsTopic(this.pipelineNotificationsTopic, {
         message: RuleTargetInput.fromText(`Integration test failed, see results here: ${EventField.fromPath(
-          '$.detail.execution-result.external-execution-url.'
+          '$.detail.execution-result.external-execution-url'
         )}`
         )
       }),
