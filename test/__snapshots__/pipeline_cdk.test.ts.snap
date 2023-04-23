@@ -234,8 +234,8 @@ exports[`Pipeline Stack 1`] = `
                       "Arn",
                     ],
                   },
-                  "StackName": "PipelineStack",
-                  "TemplatePath": "cdkBuildOutput::PipelineStack.template.json",
+                  "StackName": "PipelineCDKStack",
+                  "TemplatePath": "cdkBuildOutput::PipelineCDKStack.template.json",
                 },
                 "InputArtifacts": [
                   {
@@ -595,7 +595,7 @@ exports[`Pipeline Stack 1`] = `
                     {
                       "Ref": "AWS::AccountId",
                     },
-                    ":stack/PipelineStack/*",
+                    ":stack/PipelineCDKStack/*",
                   ],
                 ],
               },
@@ -711,6 +711,22 @@ exports[`Pipeline Stack 1`] = `
         },
       },
       "Type": "AWS::IAM::Role",
+    },
+    "PipelineNotificationsTopic827A419F": {
+      "Properties": {
+        "TopicName": "PipelineNotificationsTopic",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "PipelineNotificationsTopicpierrekengneyahoocom17355058": {
+      "Properties": {
+        "Endpoint": "pierre_kengne@yahoo.com",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "PipelineNotificationsTopic827A419F",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
     },
     "ServiceBuildProject6D228AFA": {
       "Properties": {
