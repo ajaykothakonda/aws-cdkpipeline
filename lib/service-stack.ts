@@ -29,9 +29,9 @@ export class ServiceStack extends Stack {
       functionName: `serviceLambda${props.stageName}`
     });
     
-    const DefaultIntegration = new HttpLambdaIntegration('BooksIntegration', Lambda);
+    const DefaultIntegration = new HttpLambdaIntegration('LambdaIntegration', Lambda);
         
-    const httpApi = new HttpApi(this, "ServiceLambda", {
+    const httpApi = new HttpApi(this, "ServiceAPI", {
       defaultIntegration: DefaultIntegration,
       apiName: `myService${props.stageName}`
     });
