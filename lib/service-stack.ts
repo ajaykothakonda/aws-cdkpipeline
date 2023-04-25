@@ -8,6 +8,7 @@ import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-al
 import * as integrations from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
 import * as apigw from "aws-cdk-lib/aws-apigateway";
 import * as lambda from  "aws-cdk-lib/aws-lambda"
+import { LambdaDeploymentConfig, LambdaDeploymentGroup } from "aws-cdk-lib/aws-codedeploy";
 
 
 interface serviceStackProps extends StackProps {
@@ -26,15 +27,32 @@ export class ServiceStack extends Stack {
       runtime: Runtime.NODEJS_14_X,
       handler: "scr/lambda.handler",
       code: this.servicecode,
-      functionName: `serviceLambda${props.stageName}`
+      functionName: `serviceLambda${props.stageName}`,
+      description: `Generated on ${new Date().toISOString}`
     });
+
+    const alias = new lambda.Alias(this, "ServiceLambdaAlias", {
+      version: Lambda.currentVersion,
+      aliasName: `serviceLambdaAlias${props.stackName}`
+
+    })
     
-    const DefaultIntegration = new HttpLambdaIntegration('LambdaIntegration', Lambda);
+    const DefaultIntegration = new HttpLambdaIntegration('LambdaIntegration', alias);
         
     const httpApi = new HttpApi(this, "ServiceAPI", {
       defaultIntegration: DefaultIntegration,
-      apiName: `myService${props.stageName}`
+      apiName: `myService${props.stageName}`,
     });
+
+    if (props.stackName === 'Prod') {
+      new LambdaDeploymentGroup(this, "DeploymentGroup", {
+        alias: alias,
+        deploymentConfig: LambdaDeploymentConfig.CANARY_10PERCENT_10MINUTES
+      
+      })
+    }
+
+
 
     this.serviceEnpointOutput = new CfnOutput(this, "ApiEndpointOutput", {
       exportName: `serviceEnpoint${props.stageName}`,
