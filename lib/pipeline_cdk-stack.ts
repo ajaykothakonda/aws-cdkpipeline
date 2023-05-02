@@ -158,7 +158,7 @@ export class PipelineCdkStack extends cdk.Stack {
     stage:IStage, 
     serviceEndpoint: string
   ) {
-    const inteTestAction = new CodeBuildAction({
+    const integTestAction = new CodeBuildAction({
       actionName: "Integration_Tests",
       input: this.serviceSourceOutput,
       project: new PipelineProject(this, "ServiceIntegrationTestProject", {
@@ -176,8 +176,8 @@ export class PipelineCdkStack extends cdk.Stack {
       type: CodeBuildActionType.TEST,
       runOrder: 2
     });
-    stage.addAction(inteTestAction);
-    inteTestAction.onStateChange(
+    stage.addAction(integTestAction);
+    integTestAction.onStateChange(
       "IntegrationTestFailed",
       new SnsTopic(this.pipelineNotificationsTopic, {
         message: RuleTargetInput.fromText(`Integration test failed, see results here: ${EventField.fromPath(
