@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { SecretValue } from 'aws-cdk-lib';
+import { SecretValue, Environment } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { BuildEnvironmentVariableType, BuildSpec, LinuxBuildImage, PipelineProject, Project } from 'aws-cdk-lib/aws-codebuild';
 import { Artifact, IStage, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
@@ -33,7 +33,8 @@ export class PipelineCdkStack extends cdk.Stack {
     this.pipeline = new Pipeline(this, "PipelineCDK", {
       pipelineName: 'PipelineCDK',
       crossAccountKeys: false,
-      restartExecutionOnUpdate: true
+      restartExecutionOnUpdate: true,
+      
     });
     
     this.pipelineNotificationsTopic = new Topic(
