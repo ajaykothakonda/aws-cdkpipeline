@@ -41,7 +41,7 @@ const serviceStackTest  = new ServiceStack(app, "ServiceStackTest", {
   stageName: "Test"
 });
 
-
+/*
 const serviceStackProd  = new ServiceStack(app, "ServiceStackProd", {
   env: usEast1Env,
   stageName: "Prod"
@@ -59,5 +59,5 @@ pipelineStack.addServiceIntegrationTestStage(
   serviceStackTest.serviceEnpointOutput.importValue
 
 )
-
+*/
 
