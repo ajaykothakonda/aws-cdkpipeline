@@ -46,9 +46,9 @@ const serviceStackProd  = new ServiceStack(app, "ServiceStackProd", {
   env: usEast1Env,
   stageName: "Prod"
 });
-/*
-const testStage = pipelineStack.addServiceStage(serviceStackTest, "Test");
 
+const testStage = pipelineStack.addServiceStage(serviceStackTest, "Test");
+/*
 const prodStage = pipelineStack.addServiceStage(serviceStackProd, "Prod");
 
 pipelineStack.addBillingStackToStage(billingStack, prodStage);
